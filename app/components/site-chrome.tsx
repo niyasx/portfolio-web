@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { profile } from "@/app/data/resume";
 import nameSignature from "@/assets/Niyas Name-01.png";
-import profileImage from "@/assets/niyas_image.jpeg";
+import profileImage from "@/assets/niyas_image1.jpeg";
 import {
   FiArrowUpRight,
   FiBookOpen,

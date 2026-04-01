@@ -74,38 +74,80 @@ a {
   position: relative;
   min-height: 100vh;
   overflow-x: hidden;
+  isolation: isolate;
+}
+
+.portfolio-root::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -120px;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: min(78vh, 980px);
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 120% 96% at 50% 100%, rgba(251, 132, 16, 0.9) 0%, rgba(243, 80, 15, 0.55) 30%, rgba(243, 80, 15, 0.18) 56%, transparent 76%),
+    radial-gradient(ellipse 95% 60% at 18% 100%, rgba(251, 132, 16, 0.3) 0%, transparent 62%),
+    radial-gradient(ellipse 95% 60% at 82% 100%, rgba(251, 132, 16, 0.3) 0%, transparent 62%);
 }
 
 .background-video-wrap {
   position: fixed;
   inset: 0;
-  z-index: -3;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .background-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.28;
+  opacity: 0.3;
 }
 
 .background-gradient {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 20% 20%, #fb8f10 0%, rgba(251, 143, 16, 0) 40%),
-    radial-gradient(circle at 80% 65%, #fe0101 0%, rgba(254, 1, 1, 0) 45%), #000;
-  opacity: 0.35;
+  display: none;
 }
 
 .background-noise {
-  position: absolute;
-  inset: 0;
-  opacity: 0.18;
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0.4px, transparent 0.4px);
-  background-size: 3px 3px;
+  display: none;
+}
+
+.body-overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+}
+
+.box-gradient1 {
+  display: none;
+}
+
+.box-gradient1::before {
+  content: none;
+}
+
+.box-gradient1::after {
+  content: none;
+}
+
+.img_bg-1 {
+  display: none;
+}
+
+.img_bg-2 {
+  display: none;
 }
 
 .site-main {
+  position: relative;
+  z-index: 1;
   width: 1360px;
   max-width: 100%;
   margin: 0 auto;
@@ -899,6 +941,11 @@ a {
   opacity: 0.5;
 }
 
+.bg-variant-v1 .background-gradient {
+  background: rgba(0, 0, 0, 0.35);
+  opacity: 1;
+}
+
 .section-selected-works .banner-slider {
   overflow: hidden;
   background: rgb(17, 17, 17);
@@ -1222,7 +1269,7 @@ a {
 }
 
 .site-main > .footer.style-1::before {
-  content: "";
+  content: none;
   pointer-events: none;
   position: absolute;
   left: 50%;
