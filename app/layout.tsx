@@ -16,7 +16,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Jayden - NIYAS ABDUL BASHEER",
+  title: "niyas.dev",
   description: "Portfolio website clone implementation.",
 };
 
