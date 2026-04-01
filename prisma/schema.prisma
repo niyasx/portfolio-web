@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  fullName  String
+  role      String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  messages  messages[]
+}
+
+model messages {
+  id        String   @id @default(cuid())
+  email     String
+  phone     String
+  message   String
+  status    String   @default("new")
+  userId    String?
+  user      users?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([createdAt])
+}
+
+model projects {
+  id          String   @id @default(cuid())
+  name        String
+  category    String
+  description String
+  stats       String?
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([featured])
+}
+
+model experience {
+  id        String   @id @default(cuid())
+  company   String
+  title     String
+  period    String
+  points    String[]
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([order])
+}
