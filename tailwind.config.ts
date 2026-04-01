@@ -16,7 +16,7 @@ const config: Config = {
         primary: "#F3500F",
       },
       transitionTimingFunction: {
-        jayden: "cubic-bezier(0.2, 0.65, 0.2, 1)",
+        niyas: "cubic-bezier(0.2, 0.65, 0.2, 1)",
       },
     },
   },

@@ -91,7 +91,7 @@ export function WorksSection() {
           <article key={project.name} className="works-item reveal-up">
             <div className="image">
               <Image
-                src={`https://wpriverthemes.com/HTML/jayden/asset/images/section/work-${index + 1}.jpg`}
+                src={`https://wpriverthemes.com/HTML/niyas/asset/images/section/work-${index + 1}.jpg`}
                 alt={project.name}
                 width={1300}
                 height={740}
@@ -201,7 +201,7 @@ export function TestimonialSection() {
     "A little universe of inspiration where passion meets professionalism and creativity knows no bounds. Exceptional service and stunning outcomes.",
     "This studio is on another level. Super creative, totally professional, and packed with good vibes. Loved the service and quality.",
   ];
-  const people = ["Lewis Jones", "jayden", "Musk"];
+  const people = ["Lewis Jones", "niyas", "Musk"];
   const [index, setIndex] = useState(0);
 
   const prev = () => setIndex((v) => (v - 1 + testimonials.length) % testimonials.length);
@@ -226,7 +226,7 @@ export function TestimonialSection() {
         <div className="customer-wrap">
           <div className="customer-info">
             <Image
-              src="https://wpriverthemes.com/HTML/jayden/asset/images/section/customer-1.jpg"
+              src="https://wpriverthemes.com/HTML/niyas/asset/images/section/customer-1.jpg"
               alt={people[index]}
               width={280}
               height={370}
@@ -378,13 +378,13 @@ export function PricingSection() {
 
 export function FaqSection() {
   const faqItems = [
-    "What's the Jayden progress like?",
+    "What's the niyas's progress like?",
     "Design delivery time estimate?",
     "What services do you offer?",
     "What if I don’t like design?",
     "Are there any refund?",
   ];
-  return (
+  return ( 
     <section id="faqs" className="section section-faqs">
       <h2 className="text-display-2 heading reveal-up">FAQs</h2>
       <div className="accordion-wrap reveal-up">
@@ -503,7 +503,7 @@ export function FooterSection() {
             height={76}
             className="footer-signature"
           />
-          <p className="footer-name">Jayden</p>
+          <p className="footer-name">niyas</p>
         </div>
         <div className="cta-infiniteslide">
           <div className="infiniteslide-track">
