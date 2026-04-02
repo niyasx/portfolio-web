@@ -15,6 +15,8 @@ import {
   FiZap,
 } from "react-icons/fi";
 import nameSignature from "@/assets/Niyas Name-01.png";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
 
 export function HeroSection() {
   return (
@@ -297,30 +299,74 @@ export function PartnersSection() {
 }
 
 export function ProcessSection() {
+  const steps = [
+    {
+      step: "Step 1",
+      title: "Review The Brief",
+      description:
+        "Understand project goals, tech stack requirements, and delivery expectations.",
+      icon: "gradient-icon-1",
+    },
+    {
+      step: "Step 2",
+      title: "Plan Architecture",
+      description:
+        "Design clean architecture, folder structure, and API contracts.",
+      icon: "gradient-icon-2",
+    },
+    {
+      step: "Step 3",
+      title: "Development Sprint",
+      description:
+        "Build iteratively with weekly deliverables and continuous testing.",
+      icon: "gradient-icon-3",
+    },
+    {
+      step: "Step 4",
+      title: "Deploy & Handover",
+      description:
+        "CI/CD deployment, documentation, and full post-launch support.",
+      icon: "gradient-icon-4",
+    },
+  ] as const;
+
   return (
     <section className="section section-process">
       <h2 className="text-display-2 heading reveal-up">Work Process</h2>
-      <div className="process-track reveal-up">
-        {[
-          { step: "Step 1", title: "Review The Brief" },
-          { step: "Step 2", title: "Sketch the Wireframe" },
-          { step: "Step 3", title: "Design Progress" },
-          { step: "Step 4", title: "Product Examination" },
-        ].map((item, idx) => (
-          <article key={item.step} className="process-item">
-            <div className="content">
-              <p className="step">{item.step}</p>
-              <div className="wrap">
-                <h3 className="title">{item.title}</h3>
-                <p className="text">I created digital products with ideas use Figma</p>
+      <Swiper
+        className="slider-process swiper-auto reveal-up"
+        modules={[Autoplay]}
+        loop
+        speed={4300}
+        spaceBetween={20}
+        slidesPerView="auto"
+        centeredSlides
+        grabCursor
+        allowTouchMove
+        autoplay={{
+          delay: 1,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+          reverseDirection: false,
+        }}
+      >
+        {steps.map((item) => (
+          <SwiperSlide key={item.step}>
+            <article className="process-item">
+              <div className="content">
+                <p className="step">{item.step}</p>
+                <div className="wrap">
+                  <h2 className="title">{item.title}</h2>
+                  <p className="text">{item.description}</p>
+                </div>
               </div>
-            </div>
-            <div className="image">
-              <div className={`gradient-icon gradient-icon-${idx + 1}`} />
-            </div>
-          </article>
+              <div className="image">
+                <div className={`gradient-icon ${item.icon}`} />
+              </div>
+            </article>
+          </SwiperSlide>
         ))}
-      </div>
+      </Swiper>
     </section>
   );
 }
@@ -349,6 +395,12 @@ export function AwardsSection() {
 
 export function PricingSection() {
   const [active, setActive] = useState<"standard" | "premium">("standard");
+  const plans = {
+    standard: { title: "Standard Plan", amount: "$49", support: "Support 6 months" },
+    premium: { title: "Premium Plan", amount: "$99", support: "Support 12 months" },
+  } as const;
+  const currentPlan = plans[active];
+
   return (
     <section id="pricing" className="section section-pricing">
       <div className="heading reveal-up">
@@ -370,20 +422,14 @@ export function PricingSection() {
           </button>
         </div>
       </div>
-      <div className="widget-content-inner reveal-up">
-        {(active === "standard" ? [
-          { title: "Standard Plan", amount: "$49", support: "Support 6 months" },
-          { title: "Premium Plan", amount: "$99", support: "Support 12 months" },
-        ] : [
-          { title: "Premium Plan", amount: "$99", support: "Support 12 months" },
-          { title: "Standard Plan", amount: "$49", support: "Support 6 months" },
-        ]).map((plan) => (
-          <article key={plan.title} className="pricing-item">
+      <div className="widget-content-tab reveal-up">
+        <div className="widget-content-inner active">
+          <article className="pricing-item">
             <div className="top">
-              <h6 className="title">{plan.title}</h6>
+              <h6 className="title">{currentPlan.title}</h6>
               <p className="text">Have design ready to build? Or small budget?</p>
               <div className="price">
-                <span className="number">{plan.amount}</span>
+                <span className="number">{currentPlan.amount}</span>
                 <span>/ hours</span>
               </div>
             </div>
@@ -393,7 +439,7 @@ export function PricingSection() {
               <li className="desc">Implement with Webflow, React, WordPress, Laravel/PHP</li>
               <li className="desc">Remote/Online</li>
               <li className="desc">Work in business days, no weekend.</li>
-              <li className="desc">{plan.support}</li>
+              <li className="desc">{currentPlan.support}</li>
             </ul>
             <div className="bot-btn">
               <a href="#contact">
@@ -404,8 +450,14 @@ export function PricingSection() {
               </a>
             </div>
           </article>
-        ))}
+        </div>
       </div>
+      <a href="#contact" className="custom-quote">
+        <span>Custom Quote</span>
+        <span className="icon">
+          <FiArrowUpRight />
+        </span>
+      </a>
     </section>
   );
 }
