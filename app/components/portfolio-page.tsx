@@ -62,6 +62,9 @@ export function PortfolioPage() {
         </div>
         <FooterSection />
       </motion.main>
+
+      <div className="box-gradient1 img_bg-1" aria-hidden />
+      <div className="box-gradient1 img_bg-2" aria-hidden />
     </div>
   );
 }

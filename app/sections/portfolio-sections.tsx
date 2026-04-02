@@ -2,9 +2,18 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { FormEvent, useState } from "react";
+import { CSSProperties, FormEvent, useState } from "react";
 import { profile, experiences, projects, services } from "@/app/data/resume";
-import { FiArrowLeft, FiArrowRight, FiArrowUpRight, FiPlus } from "react-icons/fi";
+import {
+  FiArrowLeft,
+  FiArrowRight,
+  FiArrowUpRight,
+  FiDatabase,
+  FiLayers,
+  FiPenTool,
+  FiSmartphone,
+  FiZap,
+} from "react-icons/fi";
 import nameSignature from "@/assets/Niyas Name-01.png";
 
 export function HeroSection() {
@@ -119,32 +128,57 @@ export function WorksSection() {
 }
 
 export function ServicesSection() {
+  const [activeService, setActiveService] = useState<string | null>(null);
+
+  const serviceIcons = [FiPenTool, FiSmartphone, FiDatabase, FiLayers, FiZap];
+
   return (
     <section id="services" className="section section-services">
       <div className="section-services-inner reveal-up">
         <p className="eyebrow">My Services</p>
         <div className="services-wrap">
-        {services.map((item) => (
-          <details key={item.id} className="accordion-item collapsed" open={item.id === "01"}>
-            <summary className="heading">
-              <span className="icon">{item.id}</span>
-              <span className="title text-display-2">
-                {item.title} <span className="text-body-1">({item.id})</span>
-              </span>
-            </summary>
-            <ul className="list-text">
-              {item.points.map((point) => (
-                <li key={point} className="sub-heading">
-                  {point}
-                </li>
-              ))}
-            </ul>
-          </details>
-        ))}
-        </div>
-        <div className="more-infor">
-          <p className="worldwide">Available to Worldwide</p>
-          <a href="#contact">Contact me</a>
+          {services.map((item, index) => {
+            const Icon = serviceIcons[index] ?? FiLayers;
+            const isActive = activeService === item.id;
+            return (
+              <article
+                key={item.id}
+                className={`service-tile ${isActive ? "is-active" : ""}`}
+                data-service-index={index + 1}
+              >
+                <button
+                  type="button"
+                  className="service-tile-head"
+                  onClick={() => setActiveService((current) => (current === item.id ? null : item.id))}
+                  aria-expanded={isActive}
+                >
+                  <span className="service-tile-title-row">
+                    <span className="service-icon" aria-hidden="true">
+                      <Icon />
+                    </span>
+                    <span className="service-tile-title">{item.title}</span>
+                  </span>
+                  <sup className="service-tile-id">{item.id}</sup>
+                </button>
+
+                <div className={`service-tile-body ${isActive ? "open" : ""}`}>
+                  <div className="service-tile-body-inner">
+                    <ul className="list-text">
+                      {item.points.map((point, pointIndex) => (
+                        <li
+                          key={point}
+                          className="sub-heading service-point"
+                          style={{ "--service-stagger": `${pointIndex * 60}ms` } as CSSProperties}
+                        >
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -384,26 +418,41 @@ export function FaqSection() {
     "What if I don’t like design?",
     "Are there any refund?",
   ];
-  return ( 
+  const [activeFaqIndex, setActiveFaqIndex] = useState<number | null>(null);
+
+  return (
     <section id="faqs" className="section section-faqs">
       <h2 className="text-display-2 heading reveal-up">FAQs</h2>
       <div className="accordion-wrap reveal-up">
-        {faqItems.map((question, idx) => (
-          <details key={question} className="item accordion-item" open={idx === 0}>
-            <summary className="accordion-head">
-              <h6>{question}</h6>
-              <span className="icon">
-                <FiPlus />
-              </span>
-            </summary>
-            <div className="accordion-collapse">
-              <p>
-                I specialize in UX/UI design, web development, and branding for individuals and
-                businesses.
-              </p>
+        {faqItems.map((question, idx) => {
+          const isActive = activeFaqIndex === idx;
+          return (
+            <div key={question} className={`item faq-item ${isActive ? "active" : ""}`}>
+              <button
+                type="button"
+                className="faq-trigger"
+                aria-expanded={isActive}
+                onClick={() => setActiveFaqIndex((prev) => (prev === idx ? null : idx))}
+              >
+                <h6 className="faq-q">{question}</h6>
+                <span className="faq-icon-button" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="16" height="16" focusable="false">
+                    <path d="M12 5V19" />
+                    <path d="M5 12H19" />
+                  </svg>
+                </span>
+              </button>
+              <div className={`faq-body ${isActive ? "open" : ""}`}>
+                <div>
+                  <p className="faq-a">
+                    I specialize in UX/UI design, web development, and branding for individuals and
+                    businesses.
+                  </p>
+                </div>
+              </div>
             </div>
-          </details>
-        ))}
+          );
+        })}
       </div>
       <div className="ask-me reveal-up">
         <p className="text">Do you have any other questions?</p>
