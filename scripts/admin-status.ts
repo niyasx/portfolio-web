@@ -2,7 +2,7 @@
  * Compares ADMIN_EMAIL / ADMIN_PASSWORD in env with admin_users in the DB.
  * Run: npm run admin:status  (loads .env via Node --env-file)
  */
-import { PrismaClient } from "../generated/prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
