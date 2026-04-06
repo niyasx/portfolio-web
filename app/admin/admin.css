@@ -316,6 +316,26 @@
   margin: 0 auto;
 }
 
+.admin-alert {
+  margin: 0 0 1rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: var(--admin-radius-sm);
+  border: 1px solid;
+  font-size: 1.4rem;
+}
+
+.admin-alert-success {
+  color: #86efac;
+  background: rgba(20, 83, 45, 0.35);
+  border-color: rgba(134, 239, 172, 0.35);
+}
+
+.admin-alert-error {
+  color: #fecaca;
+  background: rgba(127, 29, 29, 0.35);
+  border-color: rgba(248, 113, 113, 0.35);
+}
+
 .admin-page-head {
   margin-bottom: 2rem;
   padding-bottom: 1.25rem;

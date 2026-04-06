@@ -10,7 +10,19 @@ export async function proxy(req: NextRequest) {
   const secret = process.env.AUTH_SECRET;
   if (!secret) return NextResponse.next();
 
-  const token = await getToken({ req, secret });
+  const secureCookie = req.nextUrl.protocol === "https:";
+  let token = await getToken({
+    req,
+    secret,
+    cookieName: secureCookie ? "__Secure-authjs.session-token" : "authjs.session-token",
+  });
+  if (!token) {
+    token = await getToken({
+      req,
+      secret,
+      cookieName: secureCookie ? "__Secure-next-auth.session-token" : "next-auth.session-token",
+    });
+  }
   if (!token) {
     const url = new URL("/admin/login", req.nextUrl.origin);
     url.searchParams.set("callbackUrl", pathname);

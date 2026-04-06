@@ -4,6 +4,8 @@ import { prisma } from "@/app/lib/prisma";
 import { requireAdminSession } from "@/app/lib/require-admin";
 import { revalidateSiteContent } from "@/app/lib/revalidate-site";
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 function s(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
@@ -12,6 +14,24 @@ function s(formData: FormData, key: string) {
 function opt(formData: FormData, key: string) {
   const v = String(formData.get(key) ?? "").trim();
   return v === "" ? null : v;
+}
+
+type AdminFlashType = "success" | "error";
+
+async function setAdminFlash(type: AdminFlashType, message: string) {
+  const store = await cookies();
+  store.set("admin_flash", `${type}|${message}`, {
+    path: "/admin",
+    maxAge: 20,
+    sameSite: "lax",
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+  });
+}
+
+async function completeAdminAction(path: string, message: string) {
+  await setAdminFlash("success", message);
+  redirect(path);
 }
 
 export async function updateSiteProfileAction(formData: FormData) {
@@ -58,6 +78,7 @@ export async function updateSiteProfileAction(formData: FormData) {
   });
   revalidateSiteContent();
   revalidatePath("/admin/profile");
+  await completeAdminAction("/admin/profile", "Profile updated.");
 }
 
 export async function syncHeroTagsAction(formData: FormData) {
@@ -70,6 +91,7 @@ export async function syncHeroTagsAction(formData: FormData) {
   await prisma.$transaction([prisma.heroTag.deleteMany(), prisma.heroTag.createMany({ data: labels.map((label, i) => ({ label, sortOrder: i })) })]);
   revalidateSiteContent();
   revalidatePath("/admin/hero");
+  await completeAdminAction("/admin/hero", "Hero tags updated.");
 }
 
 export async function syncHeroStatsAction(formData: FormData) {
@@ -86,6 +108,7 @@ export async function syncHeroStatsAction(formData: FormData) {
   await prisma.$transaction([prisma.heroStat.deleteMany(), prisma.heroStat.createMany({ data: rows })]);
   revalidateSiteContent();
   revalidatePath("/admin/hero");
+  await completeAdminAction("/admin/hero", "Hero stats updated.");
 }
 
 export async function upsertProjectAction(formData: FormData) {
@@ -106,6 +129,7 @@ export async function upsertProjectAction(formData: FormData) {
   }
   revalidateSiteContent();
   revalidatePath("/admin/projects");
+  await completeAdminAction("/admin/projects", "Project saved.");
 }
 
 export async function deleteProjectAction(formData: FormData) {
@@ -115,6 +139,7 @@ export async function deleteProjectAction(formData: FormData) {
   await prisma.projects.delete({ where: { id } });
   revalidateSiteContent();
   revalidatePath("/admin/projects");
+  await completeAdminAction("/admin/projects", "Project deleted.");
 }
 
 export async function upsertExperienceAction(formData: FormData) {
@@ -139,6 +164,7 @@ export async function upsertExperienceAction(formData: FormData) {
   }
   revalidateSiteContent();
   revalidatePath("/admin/experience");
+  await completeAdminAction("/admin/experience", "Experience saved.");
 }
 
 export async function deleteExperienceAction(formData: FormData) {
@@ -148,6 +174,7 @@ export async function deleteExperienceAction(formData: FormData) {
   await prisma.experience.delete({ where: { id } });
   revalidateSiteContent();
   revalidatePath("/admin/experience");
+  await completeAdminAction("/admin/experience", "Experience deleted.");
 }
 
 export async function upsertServiceAction(formData: FormData) {
@@ -171,6 +198,7 @@ export async function upsertServiceAction(formData: FormData) {
   }
   revalidateSiteContent();
   revalidatePath("/admin/services");
+  await completeAdminAction("/admin/services", "Service saved.");
 }
 
 export async function deleteServiceAction(formData: FormData) {
@@ -180,6 +208,7 @@ export async function deleteServiceAction(formData: FormData) {
   await prisma.service.delete({ where: { id } });
   revalidateSiteContent();
   revalidatePath("/admin/services");
+  await completeAdminAction("/admin/services", "Service deleted.");
 }
 
 export async function upsertTechStackAction(formData: FormData) {
@@ -198,6 +227,7 @@ export async function upsertTechStackAction(formData: FormData) {
   }
   revalidateSiteContent();
   revalidatePath("/admin/tech");
+  await completeAdminAction("/admin/tech", "Tech stack item saved.");
 }
 
 export async function deleteTechStackAction(formData: FormData) {
@@ -207,6 +237,7 @@ export async function deleteTechStackAction(formData: FormData) {
   await prisma.techStackItem.delete({ where: { id } });
   revalidateSiteContent();
   revalidatePath("/admin/tech");
+  await completeAdminAction("/admin/tech", "Tech stack item deleted.");
 }
 
 export async function upsertTestimonialAction(formData: FormData) {
@@ -226,6 +257,7 @@ export async function upsertTestimonialAction(formData: FormData) {
   }
   revalidateSiteContent();
   revalidatePath("/admin/testimonials");
+  await completeAdminAction("/admin/testimonials", "Testimonial saved.");
 }
 
 export async function deleteTestimonialAction(formData: FormData) {
@@ -235,6 +267,7 @@ export async function deleteTestimonialAction(formData: FormData) {
   await prisma.testimonial.delete({ where: { id } });
   revalidateSiteContent();
   revalidatePath("/admin/testimonials");
+  await completeAdminAction("/admin/testimonials", "Testimonial deleted.");
 }
 
 export async function upsertPartnerAction(formData: FormData) {
@@ -252,6 +285,7 @@ export async function upsertPartnerAction(formData: FormData) {
   }
   revalidateSiteContent();
   revalidatePath("/admin/partners");
+  await completeAdminAction("/admin/partners", "Partner saved.");
 }
 
 export async function deletePartnerAction(formData: FormData) {
@@ -261,6 +295,7 @@ export async function deletePartnerAction(formData: FormData) {
   await prisma.partner.delete({ where: { id } });
   revalidateSiteContent();
   revalidatePath("/admin/partners");
+  await completeAdminAction("/admin/partners", "Partner deleted.");
 }
 
 export async function upsertProcessStepAction(formData: FormData) {
@@ -280,6 +315,7 @@ export async function upsertProcessStepAction(formData: FormData) {
   }
   revalidateSiteContent();
   revalidatePath("/admin/process");
+  await completeAdminAction("/admin/process", "Process step saved.");
 }
 
 export async function deleteProcessStepAction(formData: FormData) {
@@ -289,6 +325,7 @@ export async function deleteProcessStepAction(formData: FormData) {
   await prisma.processStep.delete({ where: { id } });
   revalidateSiteContent();
   revalidatePath("/admin/process");
+  await completeAdminAction("/admin/process", "Process step deleted.");
 }
 
 export async function upsertAwardAction(formData: FormData) {
@@ -306,6 +343,7 @@ export async function upsertAwardAction(formData: FormData) {
   }
   revalidateSiteContent();
   revalidatePath("/admin/awards");
+  await completeAdminAction("/admin/awards", "Award saved.");
 }
 
 export async function deleteAwardAction(formData: FormData) {
@@ -315,6 +353,7 @@ export async function deleteAwardAction(formData: FormData) {
   await prisma.award.delete({ where: { id } });
   revalidateSiteContent();
   revalidatePath("/admin/awards");
+  await completeAdminAction("/admin/awards", "Award deleted.");
 }
 
 export async function upsertPricingPlanAction(formData: FormData) {
@@ -339,6 +378,7 @@ export async function upsertPricingPlanAction(formData: FormData) {
   });
   revalidateSiteContent();
   revalidatePath("/admin/pricing");
+  await completeAdminAction("/admin/pricing", "Pricing updated.");
 }
 
 export async function upsertFaqItemAction(formData: FormData) {
@@ -356,6 +396,7 @@ export async function upsertFaqItemAction(formData: FormData) {
   }
   revalidateSiteContent();
   revalidatePath("/admin/faq");
+  await completeAdminAction("/admin/faq", "FAQ item saved.");
 }
 
 export async function deleteFaqItemAction(formData: FormData) {
@@ -365,6 +406,7 @@ export async function deleteFaqItemAction(formData: FormData) {
   await prisma.faqItem.delete({ where: { id } });
   revalidateSiteContent();
   revalidatePath("/admin/faq");
+  await completeAdminAction("/admin/faq", "FAQ item deleted.");
 }
 
 export async function markMessageReadAction(formData: FormData) {
@@ -373,4 +415,5 @@ export async function markMessageReadAction(formData: FormData) {
   if (!id) return;
   await prisma.messages.update({ where: { id }, data: { status: "read" } });
   revalidatePath("/admin/messages");
+  await completeAdminAction("/admin/messages", "Message marked as read.");
 }
