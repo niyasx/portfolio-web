@@ -108,7 +108,21 @@ Set `ADMIN_EMAIL` and `ADMIN_PASSWORD` in `.env` before `db:seed` if you want an
 
 If you hit **too many connections** from a serverless host later, consider Supabase’s **connection pooler** and Prisma’s `directUrl` for migrations (see [Prisma + Supabase](https://www.prisma.io/docs/guides/database/supabase)); the direct `5432` URL is enough to start.
 
-If **`prisma migrate deploy`** fails with **P1001** (cannot reach server), check that the Supabase project is **not paused**, **Database password** in the URI is correct (and URL-encoded), and your network allows outbound **5432** to Supabase.
+#### `P1001: Can't reach database server` (very common on home networks)
+
+Supabase’s **direct** URL uses host `db.<ref>.supabase.co:5432` and is **IPv6-first**. Many networks only have **IPv4**, so Prisma never completes TCP — you see **P1001**, not a password error.
+
+**Fix (free, recommended):** use the **Session pooler** string instead:
+
+1. In Supabase open **Connect** (top of dashboard).
+2. Choose **Session pooler** (not “Direct”).
+3. Copy the URI. It looks like `...@aws-0-<region>.pooler.supabase.com:5432/...` with user **`postgres.<project-ref>`**.
+4. Set that as `DATABASE_URL` in `.env`, keep `?sslmode=require`, and add **`&connect_timeout=30`** if the string has no query params yet (otherwise append `&connect_timeout=30`).
+5. Run `npm run prisma:deploy` again.
+
+**Other checks:** Project not **paused**; password correct and **URL-encoded** in the URI; try another network or briefly disable VPN if something still blocks outbound Postgres.
+
+**Alternatives:** [IPv4 add-on](https://supabase.com/docs/guides/platform/ipv4-address) (paid) so direct `db.*` works over IPv4; or use **Transaction pooler** (`6543`) with `pgbouncer=true` for serverless (see [Supabase + Prisma troubleshooting](https://supabase.com/docs/guides/database/prisma/prisma-troubleshooting)).
 
 ### Fast path (local Docker only)
 
@@ -226,7 +240,7 @@ This app is a standard Next.js deployment. Common options:
 
 | Variable | Required | Notes |
 |----------|----------|--------|
-| `DATABASE_URL` | Yes | Same pattern as local (e.g. Supabase URI with `sslmode=require`). |
+| `DATABASE_URL` | Yes | Match local if Supabase is prod — usually **Session pooler** (`*.pooler.supabase.com:5432`, user `postgres.<ref>`). URL-encode special characters in the password; add `sslmode=require` and `connect_timeout=30` if needed. |
 | `AUTH_SECRET` | Yes | Strong random string; not the dev default. |
 | `AUTH_URL` | Recommended | Canonical site URL, e.g. `https://your-domain.vercel.app` or custom domain — helps Auth.js cookies and redirects. |
 | `BLOB_READ_WRITE_TOKEN` | If using admin uploads | From Vercel → Storage → Blob. |
