@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { CSSProperties, FormEvent, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { CSSProperties, FormEvent, useEffect, useRef, useState } from "react";
 import { profile, experiences, projects, services } from "@/app/data/resume";
 import {
   FiArrowLeft,
@@ -16,7 +17,8 @@ import {
 } from "react-icons/fi";
 import nameSignature from "@/assets/Niyas Name-01.png";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
+import { Autoplay, Pagination } from "swiper/modules";
+import type { Swiper as SwiperInstance } from "swiper";
 
 export function HeroSection() {
   return (
@@ -206,73 +208,191 @@ export function AboutSection() {
 }
 
 export function TechStackSection() {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const swiperRef = useRef<SwiperInstance | null>(null);
+
   const stackItems = [
-    { title: "Flutter", text: "Cross-platform framework for mobile and web" },
-    { title: "Firebase", text: "Auth, notifications, and realtime workflows" },
-    { title: "PostgreSQL", text: "Relational data backbone for enterprise apps" },
-    { title: "Next.js APIs", text: "Backend routes and server-side integrations" },
-    { title: "WebSocket", text: "Low-latency sync for live data experiences" },
+    {
+      title: "Flutter",
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg",
+      text: "Cross-platform apps for Android, iOS, and web",
+    },
+    {
+      title: "Dart",
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-original.svg",
+      text: "Modern language powering fast UI and app logic",
+    },
+    {
+      title: "Firebase",
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
+      text: "Authentication, push notifications, and cloud services",
+    },
+    {
+      title: "PostgreSQL",
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
+      text: "Reliable relational database for enterprise systems",
+    },
+    {
+      title: "Next.js APIs",
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
+      text: "Server routes and integrations for backend workflows",
+    },
   ];
+
+  useEffect(() => {
+    if (!sectionRef.current || !swiperRef.current) return;
+    const swiper = swiperRef.current;
+    swiper.autoplay?.stop();
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            swiper.autoplay?.start();
+            return;
+          }
+          swiper.autoplay?.stop();
+        });
+      },
+      { threshold: 0.3 },
+    );
+
+    observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="section section-tech-stack">
+    <section ref={sectionRef} className="section section-tech-stack">
       <h2 className="text-display-2 heading reveal-up">Tech Stack</h2>
-      <div className="tech-stack-grid reveal-up">
+      <Swiper
+        className="slider-tech-stack reveal-up"
+        modules={[Autoplay, Pagination]}
+        slidesPerView={1}
+        spaceBetween={10}
+        loop
+        speed={1200}
+        autoplay={{
+          delay: 700,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          el: ".pagination-tech-stack",
+          type: "progressbar",
+        }}
+        breakpoints={{
+          768: { slidesPerView: 1.5, spaceBetween: 0 },
+          991: { slidesPerView: 1.775, spaceBetween: 0 },
+        }}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+        }}
+        onMouseEnter={() => swiperRef.current?.autoplay?.stop()}
+        onMouseLeave={() => swiperRef.current?.autoplay?.start()}
+      >
         {stackItems.map((item) => (
-          <article key={item.title} className="tech-stack-item">
-            <h3 className="title">{item.title}</h3>
-            <div className="image">
-              <span>{item.title.slice(0, 2)}</span>
-            </div>
-            <p className="text-body-1">{item.text}</p>
-          </article>
+          <SwiperSlide key={item.title}>
+            <article className="tech-stack-item">
+              <h3 className="title">{item.title}</h3>
+              <div className="image">
+                <Image src={item.icon} alt={item.title} width={86} height={86} unoptimized />
+              </div>
+              <p className="text-body-1">{item.text}</p>
+            </article>
+          </SwiperSlide>
         ))}
-      </div>
+        <div className="swiper-pagination pagination-tech-stack" />
+      </Swiper>
     </section>
   );
 }
 
 export function TestimonialSection() {
   const testimonials = [
-    "A studio with passionate, professional and full creativity. Much more than I expected. Great services, high quality products and affordable.",
-    "A little universe of inspiration where passion meets professionalism and creativity knows no bounds. Exceptional service and stunning outcomes.",
-    "This studio is on another level. Super creative, totally professional, and packed with good vibes. Loved the service and quality.",
+    "“ A studio with passionate, professional and full creativity. Much more than i’m expect. Great services, high quality products & affordable. ”",
+    "“ A little universe of inspiration — where passion meets professionalism and creativity knows no bounds. Exceptional service, stunning products that made me go 'wow' at first glance, and prices that make you smile! ”",
+    "“ This studio is on another level! Super creative, totally pro, and packed with good vibes. Loved the service, obsessed with the quality — and the prices? Totally worth it! ”",
   ];
-  const people = ["Lewis Jones", "niyas", "Musk"];
+  const customers = [
+    {
+      name: "Lewis Jones",
+      role: "Ceo of Avade Inc",
+      image: "https://wpriverthemes.com/HTML/jayden/asset/images/avatar/avatar-2.jpg",
+    },
+    {
+      name: "jayden",
+      role: "Ceo of Avade Inc",
+      image: "https://wpriverthemes.com/HTML/jayden/asset/images/avatar/avatar-3.jpg",
+    },
+    {
+      name: "Musk",
+      role: "Ceo of Avade Inc",
+      image: "https://wpriverthemes.com/HTML/jayden/asset/images/avatar/avatar-4.jpg",
+    },
+  ] as const;
   const [index, setIndex] = useState(0);
 
   const prev = () => setIndex((v) => (v - 1 + testimonials.length) % testimonials.length);
   const next = () => setIndex((v) => (v + 1) % testimonials.length);
 
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setIndex((v) => (v + 1) % testimonials.length);
+    }, 3400);
+    return () => window.clearInterval(timer);
+  }, [testimonials.length]);
+
   return (
     <section id="testimonial" className="section section-testimonial">
       <div className="section-testimonial-inner reveal-up">
-        <p className="eyebrow">Testimonial</p>
+        <p className="text-body-2 dot-before subtitle">Testimonial</p>
         <div className="testimonial-wrap">
-          <h3 className="text">&quot; {testimonials[index]} &quot;</h3>
+          <AnimatePresence mode="wait">
+            <motion.h3
+              key={`testimonial-${index}`}
+              className="text"
+              initial={{ opacity: 0, x: 34 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -34 }}
+              transition={{ duration: 0.45, ease: "easeOut" }}
+            >
+              {testimonials[index]}
+            </motion.h3>
+          </AnimatePresence>
           <div className="box-nav style-2">
             <button className="nav-sw" type="button" onClick={prev} aria-label="Previous">
               <FiArrowLeft />
             </button>
-            <span className="fraction">{String(index + 1).padStart(2, "0")}/{String(testimonials.length).padStart(2, "0")}</span>
+            <span className="fraction">
+              {index + 1} / {testimonials.length}
+            </span>
             <button className="nav-sw" type="button" onClick={next} aria-label="Next">
               <FiArrowRight />
             </button>
           </div>
         </div>
         <div className="customer-wrap">
-          <div className="customer-info">
-            <Image
-              src="https://wpriverthemes.com/HTML/niyas/asset/images/section/customer-1.jpg"
-              alt={people[index]}
-              width={280}
-              height={370}
-              unoptimized
-            />
-            <div className="content">
-              <h6 className="name">{people[index]}</h6>
-              <p className="info">Ceo of Avade Inc</p>
-            </div>
-          </div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`customer-${index}`}
+              className="customer-info"
+              initial={{ opacity: 0, x: 34 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -34 }}
+              transition={{ duration: 0.45, ease: "easeOut" }}
+            >
+              <Image
+                src={customers[index].image}
+                alt={customers[index].name}
+                width={280}
+                height={370}
+                unoptimized
+              />
+              <div className="content">
+                <h6 className="name">{customers[index].name}</h6>
+                <p className="info">{customers[index].role}</p>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </section>
@@ -280,20 +400,46 @@ export function TestimonialSection() {
 }
 
 export function PartnersSection() {
+  const partners = [
+    { src: "/assets/images/partners/logo_zm.svg", alt: "Logo ZM" },
+    { src: "/assets/images/partners/Union.svg", alt: "Union" },
+    { src: "/assets/images/partners/archin.svg", alt: "Archin" },
+    { src: "/assets/images/partners/Symbol.svg", alt: "Symbol" },
+    { src: "/assets/images/partners/Github_logo.svg", alt: "Github" },
+  ] as const;
+
   return (
     <section id="partners" className="section section-partners">
-      <p className="eyebrow reveal-up">Clients</p>
-      <h2 className="desc text-color-change reveal-up">
+      <p className="text-body-2 dot-before subtitle reveal-up">Clients</p>
+      <h2 className="desc text-color-change text-tab reveal-up">
+        <span aria-hidden />
         Haven offers more than just a place to live it&apos;s a space designed to reflect your unique
         style inspiration
       </h2>
-      <div className="partners-slider reveal-up">
-        {["PACE", "RIGVED", "NXT", "EDAPT", "SMARTPACE", "TRUCONNECT"].map((name) => (
-          <div key={name} className="partners-item">
-            <span>{name}</span>
-          </div>
+      <Swiper
+        className="slider-partners swiper-auto reveal-up"
+        modules={[Autoplay]}
+        loop
+        speed={4200}
+        spaceBetween={20}
+        slidesPerView="auto"
+        grabCursor
+        allowTouchMove
+        autoplay={{
+          delay: 1,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+          reverseDirection: false,
+        }}
+      >
+        {partners.map((partner) => (
+          <SwiperSlide key={partner.src}>
+            <div className="partners-item">
+              <Image src={partner.src} alt={partner.alt} width={120} height={48} unoptimized />
+            </div>
+          </SwiperSlide>
         ))}
-      </div>
+      </Swiper>
     </section>
   );
 }
