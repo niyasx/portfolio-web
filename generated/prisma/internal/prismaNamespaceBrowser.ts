@@ -19,10 +19,22 @@ export type * from '../models'
 export type * from './prismaNamespace'
 export const Decimal = runtime.Decimal
 export const ModelName = {
+  AdminUser: 'AdminUser',
+  SiteProfile: 'SiteProfile',
+  HeroTag: 'HeroTag',
+  HeroStat: 'HeroStat',
   users: 'users',
   messages: 'messages',
   projects: 'projects',
-  experience: 'experience'
+  experience: 'experience',
+  Service: 'Service',
+  TechStackItem: 'TechStackItem',
+  Testimonial: 'Testimonial',
+  Partner: 'Partner',
+  ProcessStep: 'ProcessStep',
+  Award: 'Award',
+  PricingPlan: 'PricingPlan',
+  FaqItem: 'FaqItem'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -38,6 +50,80 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const AdminUserScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  passwordHash: 'passwordHash',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AdminUserScalarFieldEnum = (typeof AdminUserScalarFieldEnum)[keyof typeof AdminUserScalarFieldEnum]
+
+
+export const SiteProfileScalarFieldEnum = {
+  id: 'id',
+  displayName: 'displayName',
+  roleTitle: 'roleTitle',
+  summary: 'summary',
+  contactEmail: 'contactEmail',
+  contactPhone: 'contactPhone',
+  location: 'location',
+  linkedinUrl: 'linkedinUrl',
+  githubUrl: 'githubUrl',
+  twitterUrl: 'twitterUrl',
+  dribbbleUrl: 'dribbbleUrl',
+  instagramUrl: 'instagramUrl',
+  facebookUrl: 'facebookUrl',
+  avatarUrl: 'avatarUrl',
+  signatureUrl: 'signatureUrl',
+  backgroundVideoUrl: 'backgroundVideoUrl',
+  availabilityText: 'availabilityText',
+  footerBrandName: 'footerBrandName',
+  footerMarqueeText: 'footerMarqueeText',
+  partnersHeadline: 'partnersHeadline',
+  heroEyebrow: 'heroEyebrow',
+  experienceEyebrow: 'experienceEyebrow',
+  experienceSectionTitle: 'experienceSectionTitle',
+  servicesEyebrow: 'servicesEyebrow',
+  aboutEyebrow: 'aboutEyebrow',
+  aboutSectionTitle: 'aboutSectionTitle',
+  testimonialSubtitle: 'testimonialSubtitle',
+  techStackHeading: 'techStackHeading',
+  processSectionHeading: 'processSectionHeading',
+  awardsEyebrow: 'awardsEyebrow',
+  pricingTitle: 'pricingTitle',
+  pricingTabStandardLabel: 'pricingTabStandardLabel',
+  pricingTabPremiumLabel: 'pricingTabPremiumLabel',
+  pricingHelpText: 'pricingHelpText',
+  faqHeading: 'faqHeading',
+  contactHeading: 'contactHeading',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SiteProfileScalarFieldEnum = (typeof SiteProfileScalarFieldEnum)[keyof typeof SiteProfileScalarFieldEnum]
+
+
+export const HeroTagScalarFieldEnum = {
+  id: 'id',
+  label: 'label',
+  sortOrder: 'sortOrder'
+} as const
+
+export type HeroTagScalarFieldEnum = (typeof HeroTagScalarFieldEnum)[keyof typeof HeroTagScalarFieldEnum]
+
+
+export const HeroStatScalarFieldEnum = {
+  id: 'id',
+  label: 'label',
+  value: 'value',
+  sortOrder: 'sortOrder'
+} as const
+
+export type HeroStatScalarFieldEnum = (typeof HeroStatScalarFieldEnum)[keyof typeof HeroStatScalarFieldEnum]
 
 
 export const UsersScalarFieldEnum = {
@@ -73,6 +159,8 @@ export const ProjectsScalarFieldEnum = {
   description: 'description',
   stats: 'stats',
   featured: 'featured',
+  imageUrl: 'imageUrl',
+  sortOrder: 'sortOrder',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -92,6 +180,95 @@ export const ExperienceScalarFieldEnum = {
 } as const
 
 export type ExperienceScalarFieldEnum = (typeof ExperienceScalarFieldEnum)[keyof typeof ExperienceScalarFieldEnum]
+
+
+export const ServiceScalarFieldEnum = {
+  id: 'id',
+  serviceKey: 'serviceKey',
+  title: 'title',
+  points: 'points',
+  sortOrder: 'sortOrder'
+} as const
+
+export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeof ServiceScalarFieldEnum]
+
+
+export const TechStackItemScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  iconUrl: 'iconUrl',
+  text: 'text',
+  sortOrder: 'sortOrder'
+} as const
+
+export type TechStackItemScalarFieldEnum = (typeof TechStackItemScalarFieldEnum)[keyof typeof TechStackItemScalarFieldEnum]
+
+
+export const TestimonialScalarFieldEnum = {
+  id: 'id',
+  quote: 'quote',
+  authorName: 'authorName',
+  authorRole: 'authorRole',
+  imageUrl: 'imageUrl',
+  sortOrder: 'sortOrder'
+} as const
+
+export type TestimonialScalarFieldEnum = (typeof TestimonialScalarFieldEnum)[keyof typeof TestimonialScalarFieldEnum]
+
+
+export const PartnerScalarFieldEnum = {
+  id: 'id',
+  imageUrl: 'imageUrl',
+  alt: 'alt',
+  sortOrder: 'sortOrder'
+} as const
+
+export type PartnerScalarFieldEnum = (typeof PartnerScalarFieldEnum)[keyof typeof PartnerScalarFieldEnum]
+
+
+export const ProcessStepScalarFieldEnum = {
+  id: 'id',
+  stepLabel: 'stepLabel',
+  title: 'title',
+  description: 'description',
+  iconClass: 'iconClass',
+  sortOrder: 'sortOrder'
+} as const
+
+export type ProcessStepScalarFieldEnum = (typeof ProcessStepScalarFieldEnum)[keyof typeof ProcessStepScalarFieldEnum]
+
+
+export const AwardScalarFieldEnum = {
+  id: 'id',
+  rankLabel: 'rankLabel',
+  text: 'text',
+  sortOrder: 'sortOrder'
+} as const
+
+export type AwardScalarFieldEnum = (typeof AwardScalarFieldEnum)[keyof typeof AwardScalarFieldEnum]
+
+
+export const PricingPlanScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  title: 'title',
+  amount: 'amount',
+  supportText: 'supportText',
+  bullets: 'bullets',
+  sortOrder: 'sortOrder'
+} as const
+
+export type PricingPlanScalarFieldEnum = (typeof PricingPlanScalarFieldEnum)[keyof typeof PricingPlanScalarFieldEnum]
+
+
+export const FaqItemScalarFieldEnum = {
+  id: 'id',
+  question: 'question',
+  answer: 'answer',
+  sortOrder: 'sortOrder'
+} as const
+
+export type FaqItemScalarFieldEnum = (typeof FaqItemScalarFieldEnum)[keyof typeof FaqItemScalarFieldEnum]
 
 
 export const SortOrder = {

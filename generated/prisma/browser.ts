@@ -17,6 +17,26 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
+ * Model AdminUser
+ * 
+ */
+export type AdminUser = Prisma.AdminUserModel
+/**
+ * Model SiteProfile
+ * 
+ */
+export type SiteProfile = Prisma.SiteProfileModel
+/**
+ * Model HeroTag
+ * 
+ */
+export type HeroTag = Prisma.HeroTagModel
+/**
+ * Model HeroStat
+ * 
+ */
+export type HeroStat = Prisma.HeroStatModel
+/**
  * Model users
  * 
  */
@@ -36,3 +56,43 @@ export type projects = Prisma.projectsModel
  * 
  */
 export type experience = Prisma.experienceModel
+/**
+ * Model Service
+ * 
+ */
+export type Service = Prisma.ServiceModel
+/**
+ * Model TechStackItem
+ * 
+ */
+export type TechStackItem = Prisma.TechStackItemModel
+/**
+ * Model Testimonial
+ * 
+ */
+export type Testimonial = Prisma.TestimonialModel
+/**
+ * Model Partner
+ * 
+ */
+export type Partner = Prisma.PartnerModel
+/**
+ * Model ProcessStep
+ * 
+ */
+export type ProcessStep = Prisma.ProcessStepModel
+/**
+ * Model Award
+ * 
+ */
+export type Award = Prisma.AwardModel
+/**
+ * Model PricingPlan
+ * 
+ */
+export type PricingPlan = Prisma.PricingPlanModel
+/**
+ * Model FaqItem
+ * 
+ */
+export type FaqItem = Prisma.FaqItemModel

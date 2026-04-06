@@ -124,20 +124,23 @@ export function useGsapReveal(scopeSelector = "body") {
         );
       });
 
-      gsap.fromTo(
-        ".section-title-progress",
-        { backgroundPositionX: "100%" },
-        {
-          backgroundPositionX: "0%",
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".site-main",
-            start: "top top",
-            end: "bottom bottom",
-            scrub: true,
+      const titleProgress = gsap.utils.toArray<HTMLElement>(".section-title-progress");
+      if (titleProgress.length > 0) {
+        gsap.fromTo(
+          titleProgress,
+          { backgroundPositionX: "100%" },
+          {
+            backgroundPositionX: "0%",
+            ease: "none",
+            scrollTrigger: {
+              trigger: ".site-main",
+              start: "top top",
+              end: "bottom bottom",
+              scrub: true,
+            },
           },
-        },
-      );
+        );
+      }
     }, document.querySelector(scopeSelector) ?? undefined);
 
     return () => context.revert();

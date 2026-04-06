@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { profile } from "@/app/data/resume";
+import type { SiteContentBundle } from "@/app/lib/site-content-types";
+import { toUiProfile, toUiSocial } from "@/app/lib/site-content-types";
 import nameSignature from "@/assets/Niyas Name-01.png";
 import profileImage from "@/assets/niyas_image1.jpeg";
 import {
@@ -74,7 +75,12 @@ function getLenis(): LenisLike | undefined {
   return (typeof window !== "undefined" ? (window as Window & { __lenis?: LenisLike }).__lenis : undefined);
 }
 
-export function SiteChrome() {
+export function SiteChrome({ site }: { site: SiteContentBundle }) {
+  const profile = toUiProfile(site.profile);
+  const social = toUiSocial(site.profile);
+  const avatarSrc = site.profile.avatarUrl ?? profileImage;
+  const signatureSrc = site.profile.signatureUrl ?? nameSignature;
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
@@ -263,25 +269,27 @@ export function SiteChrome() {
           </button>
           <p className="availability">
             <span />
-            Available for 3 projects
+            {site.profile.availabilityText}
           </p>
         </div>
         <div className="image">
           <Image
             className="avatar"
-            src={profileImage}
+            src={avatarSrc}
             alt={profile.name}
             width={357}
             height={352}
             priority
+            unoptimized={typeof avatarSrc === "string"}
           />
-          
+
           <Image
-            src={nameSignature}
+            src={signatureSrc}
             alt={profile.name}
             className="signature"
             width={560}
             height={170}
+            unoptimized={typeof signatureSrc === "string"}
           />
         </div>
         <div className="infor">
@@ -289,19 +297,19 @@ export function SiteChrome() {
           <p className="address">{profile.contact.location}</p>
         </div>
         <div className="social-links">
-          <Link href="https://x.com" target="_blank" aria-label="Twitter">
+          <Link href={social.twitter} target="_blank" aria-label="Twitter">
             <FiTwitter />
           </Link>
-          <Link href="https://dribbble.com" target="_blank" aria-label="Dribbble">
+          <Link href={social.dribbble} target="_blank" aria-label="Dribbble">
             <FiDribbble />
           </Link>
-          <Link href="https://instagram.com" target="_blank" aria-label="Instagram">
+          <Link href={social.instagram} target="_blank" aria-label="Instagram">
             <FiInstagram />
           </Link>
           <Link href={profile.contact.linkedin} target="_blank" aria-label="LinkedIn">
             <FiLinkedin />
           </Link>
-          <Link href="https://facebook.com" target="_blank" aria-label="Facebook">
+          <Link href={social.facebook} target="_blank" aria-label="Facebook">
             <FiFacebook />
           </Link>
         </div>
@@ -356,16 +364,16 @@ export function SiteChrome() {
           <div className="drawer-social">
             <p className="dot-title">Social Network</p>
             <div className="social-links">
-              <Link href="https://x.com" target="_blank" aria-label="Twitter">
+              <Link href={social.twitter} target="_blank" aria-label="Twitter">
                 X
               </Link>
-              <Link href="https://dribbble.com" target="_blank" aria-label="Dribbble">
+              <Link href={social.dribbble} target="_blank" aria-label="Dribbble">
                 <FiDribbble />
               </Link>
-              <Link href="https://instagram.com" target="_blank" aria-label="Instagram">
+              <Link href={social.instagram} target="_blank" aria-label="Instagram">
                 <FiInstagram />
               </Link>
-              <Link href="https://facebook.com" target="_blank" aria-label="Facebook">
+              <Link href={social.facebook} target="_blank" aria-label="Facebook">
                 <FiFacebook />
               </Link>
             </div>

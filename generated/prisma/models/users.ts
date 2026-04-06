@@ -338,18 +338,6 @@ export type UsersNullableScalarRelationFilter = {
   isNot?: Prisma.usersWhereInput | null
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
 export type usersCreateNestedOneWithoutMessagesInput = {
   create?: Prisma.XOR<Prisma.usersCreateWithoutMessagesInput, Prisma.usersUncheckedCreateWithoutMessagesInput>
   connectOrCreate?: Prisma.usersCreateOrConnectWithoutMessagesInput

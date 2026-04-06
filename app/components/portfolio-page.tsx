@@ -19,19 +19,20 @@ import {
   TestimonialSection,
   WorksSection,
 } from "@/app/sections/portfolio-sections";
+import type { SiteContentBundle } from "@/app/lib/site-content-types";
 import { motion } from "framer-motion";
 
-export function PortfolioPage() {
+export function PortfolioPage({ site }: { site: SiteContentBundle }) {
   useLenis();
   useGsapReveal();
 
   return (
     <div className="portfolio-root bg-variant-v1">
-      <SiteChrome />
+      <SiteChrome site={site} />
       <div className="background-video-wrap" aria-hidden>
         <video
           className="background-video body-overlay"
-          src="https://wpriverthemes.com/HTML/jayden/asset/images/bg-3d/video4.mp4"
+          src={site.profile.backgroundVideoUrl}
           autoPlay
           muted
           loop
@@ -46,21 +47,21 @@ export function PortfolioPage() {
         transition={{ duration: 0.9, ease: [0.2, 0.65, 0.2, 1] }}
       >
         <div className="content-column">
-          <HeroSection />
-          <ExperienceSection />
-          <WorksSection />
-          <ServicesSection />
-          <AboutSection />
-          <TechStackSection />
-          <TestimonialSection />
-          <PartnersSection />
-          <ProcessSection />
-          <AwardsSection />
-          <PricingSection />
-          <FaqSection />
-          <ContactSection />
+          <HeroSection site={site} />
+          <ExperienceSection site={site} />
+          <WorksSection site={site} />
+          <ServicesSection site={site} />
+          <AboutSection site={site} />
+          <TechStackSection site={site} />
+          <TestimonialSection site={site} />
+          <PartnersSection site={site} />
+          <ProcessSection site={site} />
+          <AwardsSection site={site} />
+          <PricingSection site={site} />
+          <FaqSection site={site} />
+          <ContactSection site={site} />
         </div>
-        <FooterSection />
+        <FooterSection site={site} />
       </motion.main>
 
       <div className="box-gradient1 img_bg-1" aria-hidden />

@@ -19,8 +19,18 @@ export type projectsModel = runtime.Types.Result.DefaultSelection<Prisma.$projec
 
 export type AggregateProjects = {
   _count: ProjectsCountAggregateOutputType | null
+  _avg: ProjectsAvgAggregateOutputType | null
+  _sum: ProjectsSumAggregateOutputType | null
   _min: ProjectsMinAggregateOutputType | null
   _max: ProjectsMaxAggregateOutputType | null
+}
+
+export type ProjectsAvgAggregateOutputType = {
+  sortOrder: number | null
+}
+
+export type ProjectsSumAggregateOutputType = {
+  sortOrder: number | null
 }
 
 export type ProjectsMinAggregateOutputType = {
@@ -30,6 +40,8 @@ export type ProjectsMinAggregateOutputType = {
   description: string | null
   stats: string | null
   featured: boolean | null
+  imageUrl: string | null
+  sortOrder: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -41,6 +53,8 @@ export type ProjectsMaxAggregateOutputType = {
   description: string | null
   stats: string | null
   featured: boolean | null
+  imageUrl: string | null
+  sortOrder: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -52,11 +66,21 @@ export type ProjectsCountAggregateOutputType = {
   description: number
   stats: number
   featured: number
+  imageUrl: number
+  sortOrder: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
+
+export type ProjectsAvgAggregateInputType = {
+  sortOrder?: true
+}
+
+export type ProjectsSumAggregateInputType = {
+  sortOrder?: true
+}
 
 export type ProjectsMinAggregateInputType = {
   id?: true
@@ -65,6 +89,8 @@ export type ProjectsMinAggregateInputType = {
   description?: true
   stats?: true
   featured?: true
+  imageUrl?: true
+  sortOrder?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -76,6 +102,8 @@ export type ProjectsMaxAggregateInputType = {
   description?: true
   stats?: true
   featured?: true
+  imageUrl?: true
+  sortOrder?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -87,6 +115,8 @@ export type ProjectsCountAggregateInputType = {
   description?: true
   stats?: true
   featured?: true
+  imageUrl?: true
+  sortOrder?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -130,6 +160,18 @@ export type ProjectsAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inter
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: ProjectsAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: ProjectsSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: ProjectsMinAggregateInputType
@@ -160,6 +202,8 @@ export type projectsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   _count?: ProjectsCountAggregateInputType | true
+  _avg?: ProjectsAvgAggregateInputType
+  _sum?: ProjectsSumAggregateInputType
   _min?: ProjectsMinAggregateInputType
   _max?: ProjectsMaxAggregateInputType
 }
@@ -171,9 +215,13 @@ export type ProjectsGroupByOutputType = {
   description: string
   stats: string | null
   featured: boolean
+  imageUrl: string | null
+  sortOrder: number
   createdAt: Date
   updatedAt: Date
   _count: ProjectsCountAggregateOutputType | null
+  _avg: ProjectsAvgAggregateOutputType | null
+  _sum: ProjectsSumAggregateOutputType | null
   _min: ProjectsMinAggregateOutputType | null
   _max: ProjectsMaxAggregateOutputType | null
 }
@@ -203,6 +251,8 @@ export type projectsWhereInput = {
   description?: Prisma.StringFilter<"projects"> | string
   stats?: Prisma.StringNullableFilter<"projects"> | string | null
   featured?: Prisma.BoolFilter<"projects"> | boolean
+  imageUrl?: Prisma.StringNullableFilter<"projects"> | string | null
+  sortOrder?: Prisma.IntFilter<"projects"> | number
   createdAt?: Prisma.DateTimeFilter<"projects"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"projects"> | Date | string
 }
@@ -214,6 +264,8 @@ export type projectsOrderByWithRelationInput = {
   description?: Prisma.SortOrder
   stats?: Prisma.SortOrderInput | Prisma.SortOrder
   featured?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -228,6 +280,8 @@ export type projectsWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringFilter<"projects"> | string
   stats?: Prisma.StringNullableFilter<"projects"> | string | null
   featured?: Prisma.BoolFilter<"projects"> | boolean
+  imageUrl?: Prisma.StringNullableFilter<"projects"> | string | null
+  sortOrder?: Prisma.IntFilter<"projects"> | number
   createdAt?: Prisma.DateTimeFilter<"projects"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"projects"> | Date | string
 }, "id">
@@ -239,11 +293,15 @@ export type projectsOrderByWithAggregationInput = {
   description?: Prisma.SortOrder
   stats?: Prisma.SortOrderInput | Prisma.SortOrder
   featured?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.projectsCountOrderByAggregateInput
+  _avg?: Prisma.projectsAvgOrderByAggregateInput
   _max?: Prisma.projectsMaxOrderByAggregateInput
   _min?: Prisma.projectsMinOrderByAggregateInput
+  _sum?: Prisma.projectsSumOrderByAggregateInput
 }
 
 export type projectsScalarWhereWithAggregatesInput = {
@@ -256,6 +314,8 @@ export type projectsScalarWhereWithAggregatesInput = {
   description?: Prisma.StringWithAggregatesFilter<"projects"> | string
   stats?: Prisma.StringNullableWithAggregatesFilter<"projects"> | string | null
   featured?: Prisma.BoolWithAggregatesFilter<"projects"> | boolean
+  imageUrl?: Prisma.StringNullableWithAggregatesFilter<"projects"> | string | null
+  sortOrder?: Prisma.IntWithAggregatesFilter<"projects"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"projects"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"projects"> | Date | string
 }
@@ -267,6 +327,8 @@ export type projectsCreateInput = {
   description: string
   stats?: string | null
   featured?: boolean
+  imageUrl?: string | null
+  sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -278,6 +340,8 @@ export type projectsUncheckedCreateInput = {
   description: string
   stats?: string | null
   featured?: boolean
+  imageUrl?: string | null
+  sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -289,6 +353,8 @@ export type projectsUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   stats?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -300,6 +366,8 @@ export type projectsUncheckedUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   stats?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -311,6 +379,8 @@ export type projectsCreateManyInput = {
   description: string
   stats?: string | null
   featured?: boolean
+  imageUrl?: string | null
+  sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -322,6 +392,8 @@ export type projectsUpdateManyMutationInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   stats?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -333,6 +405,8 @@ export type projectsUncheckedUpdateManyInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   stats?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -344,8 +418,14 @@ export type projectsCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   stats?: Prisma.SortOrder
   featured?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type projectsAvgOrderByAggregateInput = {
+  sortOrder?: Prisma.SortOrder
 }
 
 export type projectsMaxOrderByAggregateInput = {
@@ -355,6 +435,8 @@ export type projectsMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   stats?: Prisma.SortOrder
   featured?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -366,8 +448,14 @@ export type projectsMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   stats?: Prisma.SortOrder
   featured?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type projectsSumOrderByAggregateInput = {
+  sortOrder?: Prisma.SortOrder
 }
 
 export type BoolFieldUpdateOperationsInput = {
@@ -383,6 +471,8 @@ export type projectsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   description?: boolean
   stats?: boolean
   featured?: boolean
+  imageUrl?: boolean
+  sortOrder?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["projects"]>
@@ -394,6 +484,8 @@ export type projectsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   description?: boolean
   stats?: boolean
   featured?: boolean
+  imageUrl?: boolean
+  sortOrder?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["projects"]>
@@ -405,6 +497,8 @@ export type projectsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   description?: boolean
   stats?: boolean
   featured?: boolean
+  imageUrl?: boolean
+  sortOrder?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["projects"]>
@@ -416,11 +510,13 @@ export type projectsSelectScalar = {
   description?: boolean
   stats?: boolean
   featured?: boolean
+  imageUrl?: boolean
+  sortOrder?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type projectsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "category" | "description" | "stats" | "featured" | "createdAt" | "updatedAt", ExtArgs["result"]["projects"]>
+export type projectsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "category" | "description" | "stats" | "featured" | "imageUrl" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["projects"]>
 
 export type $projectsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "projects"
@@ -432,6 +528,8 @@ export type $projectsPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     description: string
     stats: string | null
     featured: boolean
+    imageUrl: string | null
+    sortOrder: number
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["projects"]>
@@ -863,6 +961,8 @@ export interface projectsFieldRefs {
   readonly description: Prisma.FieldRef<"projects", 'String'>
   readonly stats: Prisma.FieldRef<"projects", 'String'>
   readonly featured: Prisma.FieldRef<"projects", 'Boolean'>
+  readonly imageUrl: Prisma.FieldRef<"projects", 'String'>
+  readonly sortOrder: Prisma.FieldRef<"projects", 'Int'>
   readonly createdAt: Prisma.FieldRef<"projects", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"projects", 'DateTime'>
 }

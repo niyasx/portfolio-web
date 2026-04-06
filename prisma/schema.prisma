@@ -8,6 +8,78 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("admin_users")
+}
+
+model SiteProfile {
+  id                       String   @id @default("default")
+  displayName              String
+  roleTitle                String
+  summary                  String
+  contactEmail             String
+  contactPhone             String
+  location                 String
+  linkedinUrl              String
+  githubUrl                String
+  twitterUrl               String
+  dribbbleUrl              String
+  instagramUrl             String
+  facebookUrl              String
+  avatarUrl                String?
+  signatureUrl             String?
+  backgroundVideoUrl       String
+  availabilityText         String
+  footerBrandName          String
+  footerMarqueeText        String
+  partnersHeadline         String
+  heroEyebrow              String
+  experienceEyebrow        String
+  experienceSectionTitle   String
+  servicesEyebrow          String
+  aboutEyebrow             String
+  aboutSectionTitle        String
+  testimonialSubtitle      String
+  techStackHeading         String
+  processSectionHeading    String
+  awardsEyebrow            String
+  pricingTitle             String
+  pricingTabStandardLabel  String
+  pricingTabPremiumLabel   String
+  pricingHelpText          String
+  faqHeading               String
+  contactHeading           String
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  @@map("site_profile")
+}
+
+model HeroTag {
+  id        String @id @default(cuid())
+  label     String
+  sortOrder Int    @default(0)
+
+  @@map("hero_tags")
+  @@index([sortOrder])
+}
+
+model HeroStat {
+  id        String @id @default(cuid())
+  label     String
+  value     String
+  sortOrder Int    @default(0)
+
+  @@map("hero_stats")
+  @@index([sortOrder])
+}
+
 model users {
   id        String    @id @default(cuid())
   email     String    @unique
@@ -40,10 +112,13 @@ model projects {
   description String
   stats       String?
   featured    Boolean  @default(false)
+  imageUrl    String?
+  sortOrder   Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   @@index([featured])
+  @@index([sortOrder])
 }
 
 model experience {
@@ -57,4 +132,92 @@ model experience {
   updatedAt DateTime @updatedAt
 
   @@index([order])
+}
+
+model Service {
+  id         String   @id @default(cuid())
+  serviceKey String
+  title      String
+  points     String[]
+  sortOrder  Int      @default(0)
+
+  @@map("services")
+  @@index([sortOrder])
+}
+
+model TechStackItem {
+  id        String @id @default(cuid())
+  title     String
+  iconUrl   String
+  text      String
+  sortOrder Int    @default(0)
+
+  @@map("tech_stack_items")
+  @@index([sortOrder])
+}
+
+model Testimonial {
+  id         String @id @default(cuid())
+  quote      String
+  authorName String
+  authorRole String
+  imageUrl   String
+  sortOrder  Int    @default(0)
+
+  @@map("testimonials")
+  @@index([sortOrder])
+}
+
+model Partner {
+  id        String @id @default(cuid())
+  imageUrl  String
+  alt       String
+  sortOrder Int    @default(0)
+
+  @@map("partners")
+  @@index([sortOrder])
+}
+
+model ProcessStep {
+  id          String @id @default(cuid())
+  stepLabel   String
+  title       String
+  description String
+  iconClass   String
+  sortOrder   Int    @default(0)
+
+  @@map("process_steps")
+  @@index([sortOrder])
+}
+
+model Award {
+  id        String @id @default(cuid())
+  rankLabel String
+  text      String
+  sortOrder Int    @default(0)
+
+  @@map("awards")
+  @@index([sortOrder])
+}
+
+model PricingPlan {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  amount      String
+  supportText String
+  bullets     String[]
+  sortOrder   Int      @default(0)
+
+  @@map("pricing_plans")
+}
+
+model FaqItem {
+  id        String @id @default(cuid())
+  question  String
+  answer    String
+  sortOrder Int    @default(0)
+
+  @@map("faq_items")
+  @@index([sortOrder])
 }

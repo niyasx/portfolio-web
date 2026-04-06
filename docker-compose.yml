@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: portfolio
+      POSTGRES_PASSWORD: portfolio
+      POSTGRES_DB: portfolio
+    # Host 5433 avoids clashing with a local Postgres on 5432 (Homebrew, etc.)
+    ports:
+      - "5433:5432"
+    volumes:
+      - portfolio_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U portfolio -d portfolio"]
+      interval: 3s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  portfolio_pg_data:
