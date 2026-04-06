@@ -8,9 +8,6 @@ export default async function AdminPanelLayout({ children }: { children: React.R
   await requireAdminSession();
   const store = await cookies();
   const flashRaw = store.get("admin_flash")?.value;
-  if (flashRaw) {
-    store.delete("admin_flash");
-  }
   const [flashType, ...parts] = (flashRaw ?? "").split("|");
   const flashMessage = parts.join("|").trim();
   const hasFlash = (flashType === "success" || flashType === "error") && flashMessage.length > 0;
