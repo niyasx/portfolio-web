@@ -1,6 +1,7 @@
 import { requireAdminSession } from "@/app/lib/require-admin";
 import { AdminNav } from "./admin-nav";
 import { cookies } from "next/headers";
+import { AdminToast } from "./admin-toast";
 
 export const dynamic = "force-dynamic";
 
@@ -17,11 +18,7 @@ export default async function AdminPanelLayout({ children }: { children: React.R
       <AdminNav />
       <main className="admin-main">
         <div className="admin-main-inner">
-          {hasFlash ? (
-            <p className={flashType === "error" ? "admin-alert admin-alert-error" : "admin-alert admin-alert-success"}>
-              {flashMessage}
-            </p>
-          ) : null}
+          {hasFlash ? <AdminToast type={flashType} message={flashMessage} /> : null}
           {children}
         </div>
       </main>

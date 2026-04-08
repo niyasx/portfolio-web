@@ -5,11 +5,18 @@ import Lenis from "lenis";
 
 export function useLenis() {
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isTouchLikeDevice = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+
+    // Native scrolling is more stable on touch devices and avoids scroll jank.
+    if (prefersReducedMotion || isTouchLikeDevice) {
+      return;
+    }
+
     const lenis = new Lenis({
       duration: 0.72,
       smoothWheel: true,
       wheelMultiplier: 1,
-      touchMultiplier: 1.2,
       lerp: 0.12,
     });
     (window as Window & { __lenis?: Lenis }).__lenis = lenis;
